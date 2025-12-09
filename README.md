@@ -119,3 +119,18 @@ Tantangan utama adalah menyatukan data bukti bayar yang tersebar di kolom berbed
   IF(IMPORTRANGE("URL";"Responses!AC2:AC")<>""; IMPORTRANGE("URL";"Responses!AC2:AC");
   IF(IMPORTRANGE("URL";"Responses!AD2:AD")<>""; IMPORTRANGE("URL";"Responses!AD2:AD"); "")))
 ))
+
+---
+
+## 👥 Contributors & Credits
+
+Project ini adalah hasil kolaborasi teknis yang erat. Meskipun memiliki spesialisasi utama, kami berdua memiliki pemahaman *full-stack* terhadap sistem ini (Excel ↔ Apps Script).
+
+| Nama Anggota | Peran & Fokus Utama | Kontribusi Spesifik |
+| :--- | :--- | :--- |
+| **Gita Lavena Yumandari** | **Lead System Architect & Excel Specialist** | Merancang algoritma alur kerja (*workflow*), mendesain arsitektur database, serta menyusun logika rumus kompleks (`QUERY`, `ARRAYFORMULA`, `Validation`). |
+| **Yohanes Deo Pringgondani** | **Automation Engineer (Apps Script)** | Mengimplementasikan kode otomatisasi backend, logika *trigger* `onEdit`, dan *rendering* template email HTML. |
+
+> *Kedua kontributor memiliki pemahaman teknis yang menyeluruh terhadap seluruh ekosistem proyek ini dan mampu melakukan maintenance lintas-divisi.*
+
+---

@@ -1,4 +1,4 @@
-# IMC 2025 – Data Processing & Email Automation
+# Data Processing & Email Automation
 
 ![Badge Status](https://img.shields.io/badge/Status-Production-success?style=for-the-badge)
 ![Badge Stack](https://img.shields.io/badge/Stack-Google_Sheets_%7C_Apps_Script-blue?style=for-the-badge&logo=google-sheets)
@@ -82,14 +82,27 @@ Ini adalah inti dari kontrol kualitas data. Terdapat dua gerbang (*gate*) verifi
 
 ### **1. Google Sheets**
 Tampilan response asli dari Google Form.
-![sheet-dashboard](./mentah.png)
+
+<img src="./mentah.png" alt="Tampilan Response" width="800">
 
 Menggunakan *Conditional Formatting* dan *Data Validation* untuk memudahkan panitia.
-![sheet-dashboard](./olah_rapi.png)
+
+<img src="./olah_rapi.png" alt="Tampilan Rapi" width="800">
 
 ### **2. Output: Email HTML Otomatis**
 Email yang diterima peserta berisi sapaan personal dan tombol CTA (Call to Action).
-![email-sent](./olah_rapi.png)
+<table border="0">
+ <tr>
+    <td align="center">
+      <img src="./email1.jpg" alt="Tampilan Email 1" width="250">
+      <br>
+    </td>
+    <td align="center">
+      <img src="./email2.jpg" alt="Tampilan Email 2" width="250">
+      <br>
+    </td>
+ </tr>
+</table>
 
 ---
 
@@ -99,7 +112,7 @@ Bagian ini menjelaskan logika kompleks yang berjalan di belakang layar.
 
 ### 1. Google Sheets: Dynamic Data Consolidation
 Tantangan utama adalah menyatukan data bukti bayar yang tersebar di kolom berbeda tergantung pilihan paket peserta. Untuk itu digunakan **Nested IF didalam ArrayFormula**:
-![sheet-dashboard](./rumus.png)
+<img src="./rumus.png" alt="Rumus" width="800">
 ```excel
 =ARRAYFORMULA(IFERROR(
   IF(IMPORTRANGE("URL";"Responses!AB2:AB")<>""; IMPORTRANGE("URL";"Responses!AB2:AB");
@@ -119,6 +132,78 @@ Sistem ini menggunakan *Custom Script* yang ditulis dalam JavaScript (Google App
 [**LIHAT SOURCE CODE APPS SCRIPT**](scripts/kirimEmailVerifikasiTim.js)
 
 *(Link di atas akan membuka file kodingan langsung di repository ini)*
+
+---
+
+## Live Demo: Simulasi Full System
+
+Anda dapat mencoba simulasi penuh sistem ini. Karena sistem ini melibatkan integrasi data dan Apps Script, Anda perlu memiliki **salinan (copy) penuh** dari Google Sheet dan Google Form di akun Anda sendiri. 
+
+Ikuti panduan langkah demi langkah di bawah ini:
+
+### Langkah 1: Duplikasi Sistem (Copy Resources)
+Salin kedua file (Sheet & Form) ke dalam Google Drive Anda agar Anda memiliki akses Admin penuh.
+
+1.  **Salin Spreadsheet (Database & Script):**
+    <p align="center">
+      <a href="https://docs.google.com/spreadsheets/d/1Ur0bb94fzTWBmO_Zzy6FaArQExyXSvX2Yey0vqerKTI/edit?gid=1711213432#gid=1711213432">
+        <img src="https://img.shields.io/badge/📂_1._Copy_Spreadsheet-F4B400?style=for-the-badge&logo=google-drive&logoColor=white" alt="Copy Sheet" height="35">
+      </a>
+    </p>
+
+2.  **Salin Google Form (Interface):**
+    <p align="center">
+      <a href="https://docs.google.com/forms/d/1jr_RStTkh-xsDpmBVrcdb9zRlGIYpMbqGGLgaaxgokk/edit">
+        <img src="https://img.shields.io/badge/📝_2._Copy_Google_Form-7248B9?style=for-the-badge&logo=google-forms&logoColor=white" alt="Copy Form" height="35">
+      </a>
+    </p>
+
+---
+
+### Langkah 2: Hubungkan Form ke Sheet (Linking)
+Langkah ini krusial agar data form masuk ke Spreadsheet milik Anda.
+
+1.  Buka **Google Form salinan Anda** (yang baru saja dicopy).
+2.  Masuk ke tab **Responses** (Jawaban).
+3.  Klik tanda titik tiga (`⋮`) di samping ikon Spreadsheet, atau klik **Link to Sheets**.
+4.  Pilih opsi **"Select existing spreadsheet"** (Pilih spreadsheet yang ada).
+5.  Pilih file **Spreadsheet salinan Anda** (dari Langkah 1).
+    > *Sekarang, setiap kali form diisi, data akan masuk otomatis ke sheet salinan Anda.*
+
+---
+
+### Langkah 3: Aktifkan Apps Script (Authorization)
+Agar email otomatis bisa berjalan, berikan izin pada script.
+
+1.  Di Spreadsheet, buka menu **Extensions** > **Apps Script**.
+2.  Pastikan fungsi `kirimEmailVerifikasiTim` terpilih, lalu klik **▶ Run**.
+3.  Saat muncul *pop-up* izin: Klik **Review Permissions** ➡️ Pilih Akun Google ➡️ **Advanced** ➡️ **Go to (Nama Script) (Unsafe)** ➡️ **Allow**.
+
+---
+
+### Langkah 4: Uji Coba (Testing)
+Saatnya simulasi!
+
+1.  **Isi Form:** Klik tombol "Preview" (ikon mata 👁️) di Google Form Anda, lalu isi data (Gunakan email aktif Anda di kolom email peserta).
+2.  **Cek Sheet:** Buka Spreadsheet sheet `Form Responses`, pastikan data masuk. Lalu cek sheet `DATA`, pastikan data ter-update via rumus.
+3.  **Trigger Email:** Di sheet `DATA`, centang kolom **CHECKBOX** (Bendahara).
+4.  **Hasil:** Cek Inbox email Anda. Notifikasi verifikasi akan muncul! 🎉
+
+---
+
+### 🔧 Troubleshooting (Jika Email Tidak Masuk)
+Jika Anda sudah mencentang tapi email tidak muncul, ikuti langkah ini:
+
+1.  **Cek "Cell Note":** Arahkan mouse ke sel Checkbox yang Anda centang.
+    * Jika ada segitiga kecil di pojok sel, arahkan mouse ke sana.
+    * Jika tulisannya "Email terkirim...", berarti sukses.
+    * Jika tulisannya "Gagal Kirim...", berarti ada masalah izin.
+2.  **Reset Status:**
+    * **Hapus Centang** pada checkbox.
+    * **Klik Kanan** pada sel tersebut ➡️ Pilih **Delete notes** (Hapus catatan). *Ini penting! Karena sistem tidak akan mengirim ulang jika Note masih ada.*
+3.  **Coba Lagi:** Centang kembali checkbox tersebut setelah memastikan langkah *Authorization* (Langkah 1) sudah benar.
+4.  Atau, silakan isi ulang Google Form untuk mendapatkan baris data baru yang bersih.
+**Data tidak masuk ke Sheet?** Ulangi Langkah 2, pastikan Anda memilih Spreadsheet yang benar saat menghubungkan Form.
 
 ---
 

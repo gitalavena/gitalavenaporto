@@ -85,7 +85,7 @@ Tampilan response asli dari Google Form.
 ![sheet-dashboard](./mentah.png)
 
 Menggunakan *Conditional Formatting* dan *Data Validation* untuk memudahkan panitia.
-![sheet-dashboard](./mentah.png)
+![sheet-dashboard](./olah_rapi.png)
 
 ### **2. Output: Email HTML Otomatis**
 Email yang diterima peserta berisi sapaan personal dan tombol CTA (Call to Action).
@@ -99,7 +99,7 @@ Bagian ini menjelaskan logika kompleks yang berjalan di belakang layar.
 
 ### 1. Google Sheets: Dynamic Data Consolidation
 Tantangan utama adalah menyatukan data bukti bayar yang tersebar di kolom berbeda tergantung pilihan paket peserta. Untuk itu digunakan **Nested IF didalam ArrayFormula**:
-
+![sheet-dashboard](./rumus.png)
 ```excel
 =ARRAYFORMULA(IFERROR(
   IF(IMPORTRANGE("URL";"Responses!AB2:AB")<>""; IMPORTRANGE("URL";"Responses!AB2:AB");

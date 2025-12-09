@@ -80,13 +80,16 @@ Ini adalah inti dari kontrol kualitas data. Terdapat dua gerbang (*gate*) verifi
 
 ## Tampilan Sistem
 
-### **1. Dashboard Verifikasi (Google Sheets)**
+### **1. Google Sheets**
+Tampilan response asli dari Google Form.
+![sheet-dashboard](./mentah.png)
+
 Menggunakan *Conditional Formatting* dan *Data Validation* untuk memudahkan panitia.
-![sheet-dashboard](assets/mentah.png)
+![sheet-dashboard](./mentah.png)
 
 ### **2. Output: Email HTML Otomatis**
 Email yang diterima peserta berisi sapaan personal dan tombol CTA (Call to Action).
-![email-sent](assets/olah_rapi.png)
+![email-sent](./olah_rapi.png)
 
 ---
 

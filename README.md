@@ -119,7 +119,7 @@ Tantangan utama adalah menyatukan data bukti bayar yang tersebar di kolom berbed
   IF(IMPORTRANGE("URL";"Responses!AC2:AC")<>""; IMPORTRANGE("URL";"Responses!AC2:AC");
   IF(IMPORTRANGE("URL";"Responses!AD2:AD")<>""; IMPORTRANGE("URL";"Responses!AD2:AD"); "")))
 ))
-
+```
 ---
 
 ## 👥 Contributors & Credits

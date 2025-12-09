@@ -1,23 +1,23 @@
-# 🚀 IMC 2025 – Automated Registration & Notification System
+# IMC 2025 – Data Processing & Email Automation
 
 ![Badge Status](https://img.shields.io/badge/Status-Production-success?style=for-the-badge)
 ![Badge Stack](https://img.shields.io/badge/Stack-Google_Sheets_%7C_Apps_Script-blue?style=for-the-badge&logo=google-sheets)
-![Badge Type](https://img.shields.io/badge/Type-Workflow_Automation-orange?style=for-the-badge)
+![Badge AI](https://img.shields.io/badge/AI_Assisted-ChatGPT_%26_Gemini-74aa9c?style=for-the-badge&logo=openai&logoColor=white)
 
-Sistem otomatisasi ini dirancang untuk menangani ribuan data peserta IMC 2025. Mengintegrasikan **Complex Spreadsheet Logic** dengan **Google Apps Script** untuk menghilangkan proses verifikasi manual yang rentan *human error*.
+Sistem otomatisasi ini dirancang untuk menangani ratusan data peserta IMC 2025. Mengintegrasikan **Complex Spreadsheet Logic** dengan **Google Apps Script** untuk menghilangkan proses verifikasi manual yang rentan *human error*.
 
 ---
 
-## 📌 Masalah & Solusi
+## Masalah & Solusi
 | Masalah (Sebelumnya) | Solusi (Sistem Ini) |
 | :--- | :--- |
 | Data pembayaran terpecah di kolom berbeda (Bundle 1/2/3). | **Auto-Consolidation** menggunakan `ARRAYFORMULA` bersyarat. |
 | Verifikasi manual satu per satu. | **2-Stage Gate Check** (Sekretaris & Bendahara). |
-| Kirim email manual ke 4 orang per tim. | **Instan & Otomatis** mengirim email HTML ke seluruh anggota tim saat diverifikasi. |
+| Kirim email manual ke 3-4 orang per tim untuk puluhan tim. | **Instan & Otomatis** mengirim email HTML ke seluruh anggota tim saat diverifikasi. |
 
 ---
 
-## ⚙️ System Workflow
+## System Workflow
 
 Diagram alur sistem dengan logika verifikasi bertingkat dan siklus revisi (*Feedback Loop*).
 
@@ -50,7 +50,7 @@ graph LR
     class Rev1,Rev2 red;
     class Input,Process,Script blue;
 ```
-### 📝 Penjelasan Detail Alur Kerja (Workflow Breakdown)
+### Penjelasan Detail Alur Kerja (Workflow Breakdown)
 
 Berdasarkan diagram di atas, sistem bekerja dengan **Logika Pengecekan Bertahap (Multi-Stage Verification)** yang terdiri dari tiga fase utama:
 
@@ -78,23 +78,7 @@ Ini adalah inti dari kontrol kualitas data. Terdapat dua gerbang (*gate*) verifi
 
 ---
 
-### 3. Apps Script: Event-Driven Automation
-Sistem ini menggunakan *Custom Script* yang ditulis dalam JavaScript (Google Apps Script) untuk menangani logika pengiriman email secara backend.
-
-**Fitur Kunci Script:**
-* ⚡ **Smart Trigger (`onEdit`):** Skrip didesain presisi untuk hanya aktif jika (dan hanya jika) kolom **CHECKBOX** (Kolom J) dicentang. Edit di kolom lain tidak akan memicu skrip, menghemat kuota eksekusi Google.
-* 🛡️ **Anti-Spam Guardrail:** Mencegah email ganda! Sebelum mengirim, skrip mengecek "Cell Note". Jika sudah ada catatan "Terkirim", proses dibatalkan otomatis.
-* 🎨 **HTML Templating:** Email yang dikirim bukan teks biasa, melainkan HTML yang dirender dengan logo *branding* IMC dan tombol CTA (Call to Action) ke grup WhatsApp.
-
-👇 **Klik link di bawah untuk membaca kode lengkapnya:**
-
-[**📂 LIHAT SOURCE CODE APPS SCRIPT (kirimEmailVerifikasiTim.js)**](scripts/kirimEmailVerifikasiTim.js)
-
-*(Link di atas akan membuka file kodingan langsung di repository ini)*
-
----
-
-## 📸 Tampilan Sistem
+## Tampilan Sistem
 
 ### **1. Dashboard Verifikasi (Google Sheets)**
 Menggunakan *Conditional Formatting* dan *Data Validation* untuk memudahkan panitia.
@@ -106,12 +90,12 @@ Email yang diterima peserta berisi sapaan personal dan tombol CTA (Call to Actio
 
 ---
 
-## 🧠 Core Technology (Technical Deep Dive)
+## Core Technology (Technical Deep Dive)
 
 Bagian ini menjelaskan logika kompleks yang berjalan di belakang layar.
 
 ### 1. Google Sheets: Dynamic Data Consolidation
-Tantangan utama adalah menyatukan data bukti bayar yang tersebar di kolom berbeda tergantung pilihan paket peserta. Saya menggunakan **Nested IF didalam ArrayFormula**:
+Tantangan utama adalah menyatukan data bukti bayar yang tersebar di kolom berbeda tergantung pilihan paket peserta. Untuk itu digunakan **Nested IF didalam ArrayFormula**:
 
 ```excel
 =ARRAYFORMULA(IFERROR(
@@ -120,17 +104,31 @@ Tantangan utama adalah menyatukan data bukti bayar yang tersebar di kolom berbed
   IF(IMPORTRANGE("URL";"Responses!AD2:AD")<>""; IMPORTRANGE("URL";"Responses!AD2:AD"); "")))
 ))
 ```
+### 2. Apps Script: Event-Driven Automation
+Sistem ini menggunakan *Custom Script* yang ditulis dalam JavaScript (Google Apps Script) untuk menangani logika pengiriman email secara backend.
+
+**Fitur Kunci Script:**
+* **Smart Trigger (`onEdit`):** Skrip didesain presisi untuk hanya aktif jika (dan hanya jika) kolom **CHECKBOX** (Kolom J) dicentang. Edit di kolom lain tidak akan memicu skrip, menghemat kuota eksekusi Google.
+* **Anti-Spam Guardrail:** Mencegah email ganda! Sebelum mengirim, skrip mengecek "Cell Note". Jika sudah ada catatan "Terkirim", proses dibatalkan otomatis.
+* **HTML Templating:** Email yang dikirim bukan teks biasa, melainkan HTML yang dirender dengan logo *branding* IMC dan tombol CTA (Call to Action) ke grup WhatsApp.
+**Klik link di bawah untuk membaca kode lengkapnya:**
+
+[**LIHAT SOURCE CODE APPS SCRIPT**](scripts/kirimEmailVerifikasiTim.js)
+
+*(Link di atas akan membuka file kodingan langsung di repository ini)*
+
 ---
 
-## 👥 Contributors & Credits
+## 👥 Kontributor
 
-Project ini adalah hasil kolaborasi teknis yang erat. Meskipun memiliki spesialisasi utama, kami berdua memiliki pemahaman *full-stack* terhadap sistem ini (Excel ↔ Apps Script).
+![System Architect](https://img.shields.io/badge/Gita_Lavena_Yumandari-Lead_System_Architect_%26_Excel_Specialist-blue?style=for-the-badge) 
+> Perancangan alur sistem (workflow), arsitektur database, dan logika rumus kompleks (`QUERY`/`ARRAYFORMULA`).
 
-| Nama Anggota | Peran & Fokus Utama | Kontribusi Spesifik |
-| :--- | :--- | :--- |
-| **Gita Lavena Yumandari** | **Lead System Architect & Excel Specialist** | Merancang algoritma alur kerja (*workflow*), mendesain arsitektur database, serta menyusun logika rumus kompleks (`QUERY`, `ARRAYFORMULA`, `Validation`). |
-| **Yohanes Deo Pringgondani** | **Automation Engineer (Apps Script)** | Mengimplementasikan kode otomatisasi backend, logika *trigger* `onEdit`, dan *rendering* template email HTML. |
+![Automation Engineer](https://img.shields.io/badge/Yohanes_Deo_Pringgondani-Automation_Engineer_%26_Scripting-green?style=for-the-badge) 
+> Implementasi kode backend, penanganan *trigger* otomatisasi, dan sistem *rendering* email HTML.
 
-> *Kedua kontributor memiliki pemahaman teknis yang menyeluruh terhadap seluruh ekosistem proyek ini dan mampu melakukan maintenance lintas-divisi.*
+<br>
+
+> **Cross-Functional Collaboration:** Proyek ini dikerjakan dengan prinsip *Cross-Functional*. Kedua kontributor memiliki pemahaman penuh (*Full-Stack*) terhadap seluruh sistem, sehingga mampu menangani logika Excel maupun koding Apps Script secara bergantian (*interchangeable*).
 
 ---

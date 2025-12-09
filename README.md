@@ -82,11 +82,11 @@ Ini adalah inti dari kontrol kualitas data. Terdapat dua gerbang (*gate*) verifi
 
 ### **1. Dashboard Verifikasi (Google Sheets)**
 Menggunakan *Conditional Formatting* dan *Data Validation* untuk memudahkan panitia.
-![sheet-dashboard](assets/rumus.png)
+![sheet-dashboard](assets/mentah.png)
 
 ### **2. Output: Email HTML Otomatis**
 Email yang diterima peserta berisi sapaan personal dan tombol CTA (Call to Action).
-![email-sent](assets/email.png)
+![email-sent](assets/olah_rapi.png)
 
 ---
 

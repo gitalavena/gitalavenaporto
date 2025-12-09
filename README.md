@@ -51,20 +51,16 @@ graph LR
     class Input,Process,Script blue;
 ```
 ### Penjelasan Detail Alur Kerja (Workflow Breakdown)
-
-Berdasarkan diagram di atas, sistem bekerja dengan **Logika Pengecekan Bertahap (Multi-Stage Verification)** yang terdiri dari tiga fase utama:
-
 #### 1. Ingestion & Processing (Biru)
 * **Data Entry:** Peserta mengisi Google Form.
 * **Auto-Cleaning:** Data mentah langsung diproses oleh rumus `QUERY` dan `ARRAYFORMULA` di sheet `DATA` untuk memisahkan bukti bayar dan merapikan format teks.
 
 #### 2. Verification Gates & Feedback Loop (Hijau & Merah)
-Ini adalah inti dari kontrol kualitas data. Terdapat dua gerbang (*gate*) verifikasi:
 
 * **Gate 1: Cek Berkas (Sekretaris)**
-    * Sekretaris memeriksa validitas dokumen (KTM, Surat Aktif).
+    * Sekretaris memeriksa validitas dokumen.
     * ✅ **Jika Valid:** Lanjut ke Gate 2.
-    * 🔄 **Jika Salah (Looping):** Status menjadi "Revisi". Sekretaris menghubungi peserta. Setelah peserta memperbaiki berkas, Sekretaris melakukan **Cek Ulang** (kembali ke awal Gate 1).
+    * 🔄 **Jika Salah (Looping):** Status menjadi "Revisi". Setelah peserta memperbaiki berkas, Sekretaris melakukan **Cek Ulang** (kembali ke awal Gate 1).
 
 * **Gate 2: Cek Bayar (Bendahara)**
     * Bendahara mencocokkan nominal transfer dengan bukti upload.
@@ -108,10 +104,8 @@ Email yang diterima peserta berisi sapaan personal dan tombol CTA (Call to Actio
 
 ## Core Technology (Technical Deep Dive)
 
-Bagian ini menjelaskan logika kompleks yang berjalan di belakang layar.
-
 ### 1. Google Sheets: Dynamic Data Consolidation
-Tantangan utama adalah menyatukan data bukti bayar yang tersebar di kolom berbeda tergantung pilihan paket peserta. Untuk itu digunakan **Nested IF didalam ArrayFormula**:
+**Nested IF didalam ArrayFormula** untuk menyatukan data bukti bayar yang tersebar di kolom berbeda tergantung pilihan paket peserta
 <img src="./rumus.png" alt="Rumus" width="800">
 ```excel
 =ARRAYFORMULA(IFERROR(
@@ -124,7 +118,7 @@ Tantangan utama adalah menyatukan data bukti bayar yang tersebar di kolom berbed
 Sistem ini menggunakan *Custom Script* yang ditulis dalam JavaScript (Google Apps Script) untuk menangani logika pengiriman email secara backend.
 
 **Fitur Kunci Script:**
-* **Smart Trigger (`onEdit`):** Skrip didesain presisi untuk hanya aktif jika (dan hanya jika) kolom **CHECKBOX** (Kolom J) dicentang. Edit di kolom lain tidak akan memicu skrip, menghemat kuota eksekusi Google.
+* **Smart Trigger (`onEdit`):** Skrip didesain presisi untuk hanya aktif jika (dan hanya jika) kolom **CHECKBOX** (Kolom J) dicentang.
 * **Anti-Spam Guardrail:** Mencegah email ganda! Sebelum mengirim, skrip mengecek "Cell Note". Jika sudah ada catatan "Terkirim", proses dibatalkan otomatis.
 * **HTML Templating:** Email yang dikirim bukan teks biasa, melainkan HTML yang dirender dengan logo *branding* IMC dan tombol CTA (Call to Action) ke grup WhatsApp.
 **Klik link di bawah untuk membaca kode lengkapnya:**
@@ -137,7 +131,7 @@ Sistem ini menggunakan *Custom Script* yang ditulis dalam JavaScript (Google App
 
 ## Live Demo: Simulasi Full System
 
-Anda dapat mencoba simulasi penuh sistem ini. Karena sistem ini melibatkan integrasi data dan Apps Script, Anda perlu memiliki **salinan (copy) penuh** dari Google Sheet dan Google Form di akun Anda sendiri. 
+Karena sistem ini melibatkan integrasi data dan Apps Script, Anda perlu memiliki **salinan (copy) penuh** dari Google Sheet dan Google Form di akun Anda sendiri. 
 
 Ikuti panduan langkah demi langkah di bawah ini:
 
@@ -174,7 +168,6 @@ Langkah ini krusial agar data form masuk ke Spreadsheet milik Anda.
 
 ### Langkah 3: Aktifkan Apps Script (Authorization)
 Agar email otomatis bisa berjalan, berikan izin pada script.
-
 1.  Di Spreadsheet, buka menu **Extensions** > **Apps Script**.
 2.  Pastikan fungsi `kirimEmailVerifikasiTim` terpilih, lalu klik **▶ Run**.
 3.  Saat muncul *pop-up* izin: Klik **Review Permissions** ➡️ Pilih Akun Google ➡️ **Advanced** ➡️ **Go to (Nama Script) (Unsafe)** ➡️ **Allow**.
@@ -182,12 +175,10 @@ Agar email otomatis bisa berjalan, berikan izin pada script.
 ---
 
 ### Langkah 4: Uji Coba (Testing)
-Saatnya simulasi!
-
-1.  **Isi Form:** Klik tombol "Preview" (ikon mata 👁️) di Google Form Anda, lalu isi data (Gunakan email aktif Anda di kolom email peserta).
+1.  **Isi Form:** Klik tombol "Preview" di Google Form Anda, lalu isi data (Gunakan email aktif Anda di kolom email peserta).
 2.  **Cek Sheet:** Buka Spreadsheet sheet `Form Responses`, pastikan data masuk. Lalu cek sheet `DATA`, pastikan data ter-update via rumus.
-3.  **Trigger Email:** Di sheet `DATA`, centang kolom **CHECKBOX** (Bendahara).
-4.  **Hasil:** Cek Inbox email Anda. Notifikasi verifikasi akan muncul! 🎉
+3.  **Trigger Email:** Di sheet `DATA`, centang kolom **CHECKBOX**.
+4.  **Hasil:** Cek Inbox email Anda. Notifikasi verifikasi akan muncul!
 
 ---
 

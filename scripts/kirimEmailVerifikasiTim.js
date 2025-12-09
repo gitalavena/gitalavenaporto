@@ -1,13 +1,7 @@
-/**
- * FUNGSI FINAL VERSI 5: TAMPILAN EMAIL BARU DENGAN TOMBOL KECIL
- * Menggunakan Cell Note sebagai penanda status. Didesain untuk trigger "On edit".
- */
 function kirimEmailVerifikasiTim(e) {
-  // --- KONFIGURASI (Pastikan sudah sesuai dengan sheet Anda) ---
-  const NAMA_SHEET = "DATA"; // GANTI dengan nama sheet Anda
+  const NAMA_SHEET = "DATA"; // sesuaikan nama sheet
   const KOLOM_CHECKLIST = 10;    // Kolom J
-  
-  // Kolom Data (berdasarkan struktur yang kita sepakati sebelumnya)
+
   const KOLOM_NAMA_TIM = 1;
   const KOLOM_NAMA_KETUA = 2;
   const KOLOM_EMAIL_KETUA = 3;
@@ -19,7 +13,7 @@ function kirimEmailVerifikasiTim(e) {
   const KOLOM_EMAIL_ANGGOTA_3 = 9;
 
   // Mengambil informasi dari event 'edit' yang terjadi
-  const range = e.range; // Ini adalah sel yang dicentang
+  const range = e.range; // sel yang dicentang
   const sheet = range.getSheet();
   const barisEdit = range.getRow();
 
@@ -51,7 +45,7 @@ function kirimEmailVerifikasiTim(e) {
     for (const anggota of anggotaTim) {
       if (anggota.nama && anggota.email) {
         
-        // --- INI ADALAH KODE HTML LENGKAP UNTUK BADAN EMAIL BARU ANDA ---
+        // --- KODE HTML EMAIL ---
         const bodyText = `
         <!DOCTYPE html>
         <html>

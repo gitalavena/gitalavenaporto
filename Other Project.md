@@ -6,7 +6,7 @@
 
 Proyek ini adalah hasil **modifikasi dan pengembangan (enhancement)** dari template standar "Monthly Budget" milik Google. Spreadsheet statis dari template diubah menjadi basis data dinamis yang terintegrasi dengan **AppSheet** (No-Code Mobile Apps).
 
-### he Evolution (Before vs After)
+### Evolution (Before vs After)
 
 | Fitur | 📄 Google Template (Original) | My Enhanced Version |
 | :--- | :--- | :--- |
